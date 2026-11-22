@@ -3,23 +3,27 @@ name: Build APK
 on: [push, workflow_dispatch]
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - run: unzip -o MoaFigureKuji.zip
+      - name: Unzip project
+        run: unzip -o MoaFigureKuji.zip
 
-      - uses: actions/setup-java@v4
+      - name: Setup Java
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
-          java-version: 17
+          java-version: '17'
 
-      - uses: gradle/actions/setup-gradle@v4
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
 
       - name: Build APK
         run: |
@@ -30,4 +34,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Cuji-APK
-          path: "**/build/outputs/apk/**/*.apk"
+          path: '**/build/outputs/apk/**/*.apk'
